@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
-project(u8g2)
+
+if(ESP_PLATFORM)
+else()
+   project(u8g2)
+endif()
 
 set(COMPONENT_ADD_INCLUDEDIRS csrc)
 file(GLOB COMPONENT_SRCS csrc/*.c)
@@ -13,6 +17,8 @@ else()
     target_include_directories(u8g2 PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/csrc>" "$<INSTALL_INTERFACE:include>")
 endif()
 
+if(ESP_PLATFORM)
+else()
 install(TARGETS u8g2
         EXPORT u8g2-targets
         ARCHIVE DESTINATION lib)
@@ -25,3 +31,4 @@ install(EXPORT u8g2-targets
 
 install(FILES ${u8g2_SOURCE_DIR}/pkg/u8g2-config.cmake
         DESTINATION lib/cmake/u8g2)
+endif()
